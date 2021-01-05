@@ -2,8 +2,8 @@
 #include <cmath>
 using namespace std;
 
-int number = 100000;
-int a[100001];
+int number = 120;
+int a[121];
 
 void primeNumberSieve()
 {
@@ -11,11 +11,11 @@ void primeNumberSieve()
     {
         a[i] = i;
     }
-    for (int i = 2; i <= number; i++)
+    for (int i = 2; i <= sqrt(number); i++)
     {
         if (a[i] == 0)
             continue;
-        for (int j = i + i; j <= number; j += i)
+        for (int j = i * i; j <= number; j += i)
             a[j] = 0;
     }
     for (int i = 2; i <= number; i++)

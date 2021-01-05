@@ -77,6 +77,6 @@ int main()
 
     for (int i = 1; i <= number; i++)
     {
-        printf("%d", d[i]);
+        printf("%d ", d[i]);
     }
 }
