@@ -5,70 +5,52 @@
 4. n*log(n)의 시간복잡도
 */
 #include <iostream>
+#include <vector>
 using namespace std;
 
-int sorted[8];
+int sorted[7];
+vector<int> arr = {38, 27, 43, 9, 3, 82, 10};
 
-void merge(int *a, int n, int middle, int m)
+void merge(int left, int right)
 {
-    int i = n;
-    int j = middle + 1;
-    int k = n;
-    while (i <= middle && j <= m)
+    int mid = (left + right) / 2;
+
+    int i = left;
+    int j = mid + 1;
+    int k = left;
+
+    // 두 부분 수열을 오름차순으로 합치는 과정
+    while (i <= mid && j <= right)
     {
-        if (a[i] < a[j])
-        {
-            sorted[k] = a[i];
-            i++;
-        }
+        if (arr[i] <= arr[j])
+            sorted[k++] = arr[i++];
         else
-        {
-            sorted[k] = a[j];
-            j++;
-        }
-        k++;
+            sorted[k++] = arr[j++];
     }
-    if (i > middle)
-    {
-        while (j <= m)
-        {
-            sorted[k] = a[j];
-            j++;
-            k++;
-        }
-    }
-    else
-    {
-        while (i <= middle)
-        {
-            sorted[k] = a[i];
-            i++;
-            k++;
-        }
-    }
-    for (int t = n; t <= m; t++)
-    {
-        a[t] = sorted[t];
-    }
+    // 남은 요소들을 합치는 과정
+    int temp = i > mid ? j : i;
+    while (k <= right)
+        sorted[k++] = arr[temp++];
+
+    for (int i = left; i <= right; i++)
+        arr[i] = sorted[i];
 }
 
-void mergeSort(int *a, int n, int m)
+void mergeSort(int left, int right)
 {
-    if (n < m)
+    if (left < right)
     {
-        int middle = (n + m) / 2;
-        mergeSort(a, n, middle);
-        mergeSort(a, middle + 1, m);
-        merge(a, n, middle, m);
+        int mid = (left + right) / 2;
+        mergeSort(left, mid);
+        mergeSort(mid + 1, right);
+        merge(left, right);
     }
 }
 int main()
 {
-    int array[8] = {3, 5, 6, 2, 4, 1, 8, 7};
-    mergeSort(array, 0, 7);
-    for (int i = 0; i < 8; i++)
-    {
-        printf("%d ", array[i]);
-    }
+    mergeSort(0, 6);
+    for (int i = 0; i < 7; i++)
+        printf("%d ", arr[i]);
+
     return 0;
 }
